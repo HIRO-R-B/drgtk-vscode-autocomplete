@@ -3,6 +3,7 @@
   "displayName": "drgtk-autocomplete",
   "description": "",
   "publisher": "HIRO-R-B",
+  "repository": "https://github.com/HIRO-R-B/drgtk-vscode-autocomplete.git",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.52.0"
