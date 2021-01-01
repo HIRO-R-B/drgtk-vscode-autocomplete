@@ -18,15 +18,20 @@ export function activate(context: vscode.ExtensionContext) {
           return undefined;
         }
 
-        const currentFolder = ws.getWorkspaceFolder(document.uri);
-        if (!(currentFolder?.name === 'app' && document.fileName.endsWith('main.rb'))) {
+        const fileName = document.fileName;
+        if (!fileName.endsWith('main.rb')) {
+          return undefined;
+        }
+
+        var folder = document.uri.fsPath.slice(0, -8);
+        if (!folder.endsWith('\\app')) {
           return undefined;
         }
 
         const enc = new TextEncoder();
-        const mailboxUri = vscode.Uri.file(`${currentFolder.uri.fsPath}/mailbox.rb`);
-        const mailboxProcessedUri = vscode.Uri.file(`${currentFolder.uri.fsPath}/mailbox-processed`);
-        const autocompleteUri = vscode.Uri.file(`${currentFolder.uri.fsPath}/autocomplete.txt`);
+        const mailboxUri = vscode.Uri.file(`${folder}\\mailbox.rb`);
+        const mailboxProcessedUri = vscode.Uri.file(`${folder}\\mailbox-processed`);
+        const autocompleteUri = vscode.Uri.file(`${folder}\\autocomplete.txt`);
         const content =
 `suggestions = $gtk.suggest_autocompletion index: ${document.offsetAt(position)}, text: <<-S
 ${document.getText()}

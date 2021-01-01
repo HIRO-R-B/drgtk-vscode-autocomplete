@@ -10,7 +10,7 @@ To install, download the vsix file, locate it and then run
 
 ## How to Use
 
-`ctrl` + `shift` + `p` then run command `DRGTK: Autocomplete On` to turn on extension while editing `main.rb`
+`ctrl` + `shift` + `p` then run command `DRGTK: Autocomplete On` to turn on extension while editing `main.rb` (Only works in `main.rb` btw)
 
 `main.rb` should look somewhat like this
 
@@ -42,7 +42,11 @@ Don't know
 
 ## Release Notes
 
-Very first release
+Bugfixos
+
+### 1.0.1
+
+You can just open main.rb and it should work?
 
 ### 1.0.0
 
