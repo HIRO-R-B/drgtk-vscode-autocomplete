@@ -23,34 +23,38 @@ export function activate(context: vscode.ExtensionContext) {
           return undefined;
         }
 
-        var folder = document.uri.fsPath.slice(0, -8);
-        if (!folder.endsWith('\\app')) {
+        var folder = document.uri.path.slice(0, -8);
+        if (!folder.endsWith('/app')) {
           return undefined;
         }
 
         const enc = new TextEncoder();
-        const mailboxUri = vscode.Uri.file(`${folder}\\mailbox.rb`);
-        const mailboxProcessedUri = vscode.Uri.file(`${folder}\\mailbox-processed`);
-        const autocompleteUri = vscode.Uri.file(`${folder}\\autocomplete.txt`);
+        const mailboxUri = vscode.Uri.file(`${folder}/mailbox.rb`);
+        const mailboxProcessedUri = vscode.Uri.file(`${folder}/mailbox-processed`);
+        const autocompleteUri = vscode.Uri.file(`${folder}/autocomplete.txt`);
         const content =
 `suggestions = $gtk.suggest_autocompletion index: ${document.offsetAt(position)}, text: <<-S
 ${document.getText()}
 S
 $gtk.write_file 'app/autocomplete.txt', suggestions.join("\\n")`;
 
-        ws.fs.delete(mailboxProcessedUri, { recursive: true, useTrash: false });
-        ws.fs.delete(autocompleteUri, { useTrash: false });
+        try {
+          ws.fs.delete(mailboxProcessedUri, { recursive: true, useTrash: false });
+        } catch { }
+        try {
+          await ws.fs.delete(autocompleteUri, { useTrash: false });
+        } catch { }
         ws.fs.writeFile(mailboxUri, enc.encode(content));
 
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 20; i++) {
           let flag = false;
-          await new Promise(r => setTimeout(r, 100));
+          await new Promise(r => setTimeout(r, 50));
           try {
             await vscode.workspace.fs.stat(autocompleteUri);
             flag = true;
           } catch { }
           if (flag) { break; }
-          if (i === 5) { return undefined; }
+          if (i === 20) { return undefined; }
         }
 
         const completions = ws.fs.readFile(autocompleteUri);

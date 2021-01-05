@@ -1,26 +1,27 @@
 # drgtk-autocomplete README
 
-Autocompletion ported to VSCode
+Autocompletion for VSCode
 
 To install, download the vsix file, locate it and then run  
-`code --install-extension drgtk-autocomplete-0.0.1.vsix`
+`code --install-extension drgtk-autocomplete-0.0.2.vsix`
 
-[Also requires that you use the runtime code from here](https://github.com/DragonRuby/company-dragonruby)
-< The actual real work, I just ported stuff :)
+Please use it with the latest version of DRGTK
+
+## Caveats
+
+Doesn't work with everything. (e.g. you can't use it on integers/floats... yet??)
 
 ## How to Use
 
 `ctrl` + `shift` + `p` then run command `DRGTK: Autocomplete On` to turn on extension while editing `main.rb` (Only works in `main.rb` btw)
 
-`main.rb` should look somewhat like this
+Include `$gtk.suppress_mailbox = false` in `main.rb` if you want the plugin to run a little faster, like so:
 
 ```ruby
-require 'runtime/autocomplete.rb'
-
 def tick args
-  args.gtk.suppress_mailbox = false
+  $gtk.suppress_mailbox = false
 
-  # ... Rest of your code
+  # Code ...
 end
 ```
 
@@ -44,10 +45,14 @@ Don't know
 
 Bugfixos
 
-### 1.0.1
+### 0.0.2
+
+Now works on not Windows OSes
+
+### 0.0.1
 
 You can just open main.rb and it should work?
 
 ### 1.0.0
 
-Initial release of this extension
+Initial release of this extension! Ignore the weird versioning.
