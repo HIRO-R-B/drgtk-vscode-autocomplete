@@ -54,7 +54,7 @@ $gtk.write_file 'app/autocomplete.txt', suggestions.join("\\n")`;
             flag = true;
           } catch { }
           if (flag) { break; }
-          if (i === 20) { return undefined; }
+          if (i === 19) { return undefined; }
         }
 
         const completions = ws.fs.readFile(autocompleteUri);
