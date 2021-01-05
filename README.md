@@ -7,10 +7,6 @@ To install, download the vsix file, locate it and then run
 
 Please use it with the latest version of DRGTK
 
-## Caveats
-
-Doesn't work with everything. (e.g. you can't use it on integers/floats... yet??)
-
 ## How to Use
 
 `ctrl` + `shift` + `p` then run command `DRGTK: Autocomplete On` to turn on extension while editing `main.rb` (Only works in `main.rb` btw)
@@ -26,6 +22,10 @@ def tick args
   # Code ...
 end
 ```
+
+## Caveats
+
+Doesn't work with everything. (e.g. you can't use it on integers/floats... yet??)
 
 ## Features
 
