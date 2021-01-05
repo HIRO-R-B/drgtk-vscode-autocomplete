@@ -15,6 +15,8 @@ Doesn't work with everything. (e.g. you can't use it on integers/floats... yet??
 
 `ctrl` + `shift` + `p` then run command `DRGTK: Autocomplete On` to turn on extension while editing `main.rb` (Only works in `main.rb` btw)
 
+Make sure DRGTK is running while you use the extension in order for it to work properly
+
 Include `$gtk.suppress_mailbox = false` in `main.rb` if you want the plugin to run a little faster, like so:
 
 ```ruby
