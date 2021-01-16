@@ -5,6 +5,9 @@ Autocompletion for VSCode
 To install, download the vsix file, locate it and then run  
 `code --install-extension drgtk-autocomplete-0.0.2.vsix`
 
+If you get an error such as `-bash: code: command not found`, you first need to open up your command pallette (CMD+SHIFT+P in OSX, CNTRL+SHIFT+P in Windows)
+in VSCode, and "install code command in PATH - this will make it available. 
+
 Please use it with the latest version of DRGTK
 
 ## How to Use
