@@ -5,12 +5,12 @@ Autocompletion for VSCode
 ## Installation
 First download the vsix file  
 
-### Through VSCode
+#### Through VSCode
 Open your extentions in the sidebar (`ctrl+shift+x`)  
 Open the views and more actions (The ellipses towards the top right)  
 Choose `Install from VSIX...` and then find and install the vsix you downloaded
 
-### By terminal 
+#### By terminal 
 locate the vsix file and then run something like below in command prompt  
 (after replacing the relavant parts inside the brackets `[]`, including the brackets)  
 `code --install-extension [path_to]/drgtk-autocomplete-[X.X.X].vsix`
