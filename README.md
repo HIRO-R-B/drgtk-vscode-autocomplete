@@ -1,6 +1,6 @@
 # drgtk-autocomplete README
 
-Autocompletion for VSCode
+Autocompletion for VSCode (**Experimental**: Don't expect a smooth and complete experience)
 
 ## Installation
 First download the vsix file  
