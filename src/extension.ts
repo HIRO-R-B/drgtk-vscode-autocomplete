@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode';
 import * as http from 'http';
-import { TextDecoder } from 'util';
 
 export function activate(context: vscode.ExtensionContext) {
 
