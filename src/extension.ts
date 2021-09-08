@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode';
 import * as http from 'http';
+import { TextDecoder } from 'util';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -20,15 +21,25 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         const content = JSON.stringify({
-          index: document.offsetAt(position),
-          text: document.getText()
+          code: `
+begin
+$result = $gtk.suggest_autocompletion index: ${document.offsetAt(position)}, text: <<-S
+${document.getText()}
+S
+$result = $result.join("\n")
+rescue => e
+  $result = ''
+end
+          `,
         });
+
+        console.log(content);
 
         const request = new Promise<string | undefined>((resolve, reject) => {
           const options = {
             hostname: 'localhost',
             port: 9001,
-            path: '/dragon/autocomplete/',
+            path: '/dragon/eval/',
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
