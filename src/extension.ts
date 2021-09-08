@@ -1,5 +1,6 @@
-import { TextDecoder, TextEncoder } from 'util';
+/* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode';
+import * as http from 'http';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -18,48 +19,44 @@ export function activate(context: vscode.ExtensionContext) {
           return undefined;
         }
 
-        const fileName = document.fileName;
-        if (!fileName.endsWith('main.rb')) {
-          return undefined;
+        const content = JSON.stringify({
+          index: document.offsetAt(position),
+          text: document.getText()
+        });
+
+        const request = new Promise<string | undefined>((resolve, reject) => {
+          const options = {
+            hostname: 'localhost',
+            port: 9001,
+            path: '/dragon/autocomplete/',
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+              "Content-Length": content.length,
+            }
+          };
+
+          const req = http.request(options, res => {
+            res.on('data', d => {
+              resolve(d.toString());
+            });
+          });
+
+          // No connection, etc.
+          req.on('error', error => {
+            reject(undefined);
+          });
+
+          req.write(content);
+          req.end();
+        });
+
+        const completions = await request;
+        if (completions) {
+          return completions.split('\n').map(str => new vscode.CompletionItem(str, vscode.CompletionItemKind.Method));
         }
 
-        var folder = document.uri.path.slice(0, -8);
-        if (!folder.endsWith('/app')) {
-          return undefined;
-        }
-
-        const enc = new TextEncoder();
-        const mailboxUri = vscode.Uri.file(`${folder}/mailbox.rb`);
-        const mailboxProcessedUri = vscode.Uri.file(`${folder}/mailbox-processed`);
-        const autocompleteUri = vscode.Uri.file(`${folder}/autocomplete.txt`);
-        const content =
-`suggestions = $gtk.suggest_autocompletion index: ${document.offsetAt(position)}, text: <<-S
-${document.getText()}
-S
-$gtk.write_file 'app/autocomplete.txt', suggestions.join("\\n")`;
-
-        try {
-          ws.fs.delete(mailboxProcessedUri, { recursive: true, useTrash: false });
-        } catch { }
-        try {
-          await ws.fs.delete(autocompleteUri, { useTrash: false });
-        } catch { }
-        ws.fs.writeFile(mailboxUri, enc.encode(content));
-
-        for (var i = 0; i < 20; i++) {
-          let flag = false;
-          await new Promise(r => setTimeout(r, 50));
-          try {
-            await vscode.workspace.fs.stat(autocompleteUri);
-            flag = true;
-          } catch { }
-          if (flag) { break; }
-          if (i === 19) { return undefined; }
-        }
-
-        const completions = ws.fs.readFile(autocompleteUri);
-        var items = (await completions).toString();
-        return items.split('\n').map(s => new vscode.CompletionItem(s, vscode.CompletionItemKind.Method));
+        return undefined;
       }
     },
     '.' // triggered whenever a '.' is being typed
