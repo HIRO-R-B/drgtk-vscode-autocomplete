@@ -10,7 +10,7 @@ Open your extensions in the sidebar (`ctrl+shift+x`)
 Open the views and more actions (The ellipses towards the top right)  
 Choose `Install from VSIX...` and then find and install the vsix you downloaded
 
-#### By terminal 
+#### By terminal
 locate the vsix file and then run something like below in command prompt  
 (after replacing the relavant parts inside the brackets `[]`, including the brackets)  
 `code --install-extension [path_to]/drgtk-autocomplete-[X.X.X].vsix`
@@ -22,19 +22,9 @@ Please use it with the latest version of DRGTK
 
 ## How to Use
 
-`ctrl` + `shift` + `p` then run command `DRGTK: Autocomplete On` to turn on extension while editing `main.rb` (Only works in `main.rb` btw)
+`ctrl` + `shift` + `p` then run command `DRGTK: Autocomplete On` to turn on the extension
 
 Make sure DRGTK is running while you use the extension in order for it to work properly
-
-Include `$gtk.suppress_mailbox = false` in `main.rb` if you want the plugin to run a little faster, like so:
-
-```ruby
-def tick args
-  $gtk.suppress_mailbox = false
-
-  # Code ...
-end
-```
 
 ## Caveats
 
@@ -59,6 +49,10 @@ Don't know
 ## Release Notes
 
 Bugfixos
+
+### 0.0.3
+
+Now uses HTTP! No longer only restricted to `main.rb`
 
 ### 0.0.2
 

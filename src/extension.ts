@@ -33,8 +33,6 @@ end
           `,
         });
 
-        console.log(content);
-
         const request = new Promise<string | undefined>((resolve, reject) => {
           const options = {
             hostname: 'localhost',
@@ -48,15 +46,11 @@ end
           };
 
           const req = http.request(options, res => {
-            res.on('data', d => {
-              resolve(d.toString());
-            });
+            res.on('data', d => resolve(d.toString()));
           });
 
           // No connection, etc.
-          req.on('error', error => {
-            reject(undefined);
-          });
+          req.on('error', error => resolve(undefined));
 
           req.write(content);
           req.end();
@@ -64,7 +58,9 @@ end
 
         const completions = await request;
         if (completions) {
-          return completions.split('\n').map(str => new vscode.CompletionItem(str, vscode.CompletionItemKind.Method));
+          return completions.split('\n').map((str: string) => new vscode.CompletionItem(str, vscode.CompletionItemKind.Method));
+        } else {
+          vscode.window.showInformationMessage('DO YOU HAVE DRAGONRUBY OPENED?!');
         }
 
         return undefined;
@@ -74,4 +70,8 @@ end
   );
 
   context.subscriptions.push(disposable, provider);
+}
+
+export function deactivate() {
+  return undefined;
 }
